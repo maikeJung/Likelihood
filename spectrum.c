@@ -131,7 +131,7 @@ void applyEnergyRes(int t, double *distribution, double *energySpectrum){
     for (f=1; f<RESE; f+=1){
         pNew = 0.0;
         for (g=-RESE; g<RESE+1; g+=2){
-            if (f-g >= 0 && f-g <= RESE){
+            if (f-g >= 0 && f-g <= RESE-1){
                 pNew += GAUSS(g*STEPE, f*STEPE)*energySpectrum[f-g];
             }
         }
