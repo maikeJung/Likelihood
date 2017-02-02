@@ -69,9 +69,9 @@ int main(void){
     bool triggEff = true;
     bool energyRes = true;
     bool plot = false;
-    user_data_t mass = 1.5;
-    user_data_t distance = 5.0;
-    user_data_t events = 10.0;
+    user_data_t mass = 0.00;
+    user_data_t distance = 1.0;
+    user_data_t events = 160.0;
     user_data_t max;
     int filenumber, i;
     double noise_rate = pow(10,-3); //Hz, expected total noise rate

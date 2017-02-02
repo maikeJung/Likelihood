@@ -17,7 +17,7 @@ typedef float user_data_t;
 typedef double user_data_t;
 #endif
 
-void createSpectrum(user_data_t *spectrum, user_data_t mass, user_data_t distance, user_data_t events, bool useEnergyRes, bool useTriggerEff, user_data_t noise);
+void createSpectrum(user_data_t *spectrum, user_data_t mass, user_data_t distance, user_data_t events, bool useEnergyRes, bool useTriggerEff, user_data_t noise, double noise_events);
 
 void getEvent(int *eventEnergy, int *eventTime, double mass, double distance, double events, int filenumber);
-double getLLH(double mass, double distance, double events, bool triggEff, bool energyRes, double noise, int *eventTime, int *eventEnergy);
+double getLLH(double mass, double distance, double events, bool triggEff, bool energyRes, double noise, int *eventTime, int *eventEnergy, double noise_events);

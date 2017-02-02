@@ -34,13 +34,13 @@ void getEvent(int *eventEnergy, int *eventTime, double mass, double distance, do
     }
 }
 ///function that calculates likelihood - and will then be minimized in python
-double getLLH(double mass, double distance, double events, bool triggEff, bool energyRes, double noise, int *eventTime, int *eventEnergy){
+double getLLH(double mass, double distance, double events, bool triggEff, bool energyRes, double noise, int *eventTime, int *eventEnergy, double noise_events){
 
     double llh = 0.0;
     int i;
     user_data_t spectrum[(RESE-1)*REST];
 	//double *spectrum= (double*) malloc((RESE-1) * REST * sizeof(double));
-    createSpectrum(spectrum, mass, distance, events, energyRes, triggEff, noise);
+    createSpectrum(spectrum, mass, distance, events, energyRes, triggEff, noise, noise_events);
 
     for (i = 0; i < events; i++){
         if (spectrum[eventTime[i]*(RESE-1)+eventEnergy[i]] < pow(10,-200)){
@@ -55,7 +55,7 @@ double getLLH(double mass, double distance, double events, bool triggEff, bool e
 
 
 // method that scans over range
-void calcLLH(double mass, double distance, double events, bool triggEff, bool energyRes, int filenumber, double noise){
+void calcLLH(double mass, double distance, double events, bool triggEff, bool energyRes, int filenumber, double noise, double noise_events){
    
     /*load events & store energy and time in arrays*/
     int eventEnergy[(int) events];
@@ -74,7 +74,7 @@ void calcLLH(double mass, double distance, double events, bool triggEff, bool en
     // first go over broad range - there are no negative entries in the spectrum!!!!!
     for (testMass = mass - 0.5; testMass <= mass + 0.5; testMass+=0.1){
         llh = 0.0;
-        createSpectrum(testSpectrum, testMass, distance, events, energyRes, triggEff, noise);
+        createSpectrum(testSpectrum, testMass, distance, events, energyRes, triggEff, noise, noise_events);
         for (i = 0; i < events; i++){
             if (testSpectrum[eventTime[i]*(RESE-1)+eventEnergy[i]] < pow(10,-200)){
                 llh += -10000000;   
@@ -95,7 +95,7 @@ void calcLLH(double mass, double distance, double events, bool triggEff, bool en
     for (testMass = currentMinimum - 0.05; testMass <= currentMinimum + 0.05; testMass += 0.01){
         if(testMass >= 0.0){
             llh = 0.0;
-            createSpectrum(testSpectrum, testMass, distance, events, energyRes, triggEff, noise);
+            createSpectrum(testSpectrum, testMass, distance, events, energyRes, triggEff, noise, noise_events);
             for (i = 0; i < events; i++){
                 if (testSpectrum[eventTime[i]*(RESE-1)+eventEnergy[i]] < pow(10,-200)){
                     llh += -10000000;   
@@ -136,14 +136,15 @@ int main(void){
     bool energyRes = true;
     double mass = 1.0;
     double distance = 1.0;
-    double events = 160;
+    double events = 160;  
+    double noise_events = 0.01;  
     int filenumber;
     double noise = pow(10,-5);
 
     /*calculate uncertainty for certain configuration*/
     for (filenumber=1; filenumber<1; filenumber++){ 
         printf("evaluating file %d \n", filenumber);
-        calcLLH(mass, distance, events, triggEff, energyRes, filenumber, noise);
+        calcLLH(mass, distance, events, triggEff, energyRes, filenumber, noise, noise_events);
     }
 
     printf("DONE\n");

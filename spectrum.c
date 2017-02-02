@@ -219,12 +219,12 @@ double noise(double b, double E){
     return value;
 }
 
-void addExpNoise(user_data_t *spectrum, user_data_t b, double events){ 
+void addExpNoise(user_data_t *spectrum, user_data_t b, double events, double noise_events){ 
     /*add noise to the spectrum*/
     int t, e;
     for(t = 0; t < REST; t++){
         for(e = 1; e < RESE; e++){
-            spectrum[t*(RESE-1) +e-1] = noise(b, e*STEPE)*0.01 + spectrum[t*(RESE-1) +e-1]*(events-0.01);
+            spectrum[t*(RESE-1) +e-1] = noise(b, e*STEPE)*noise_events + spectrum[t*(RESE-1) +e-1]*(events-noise_events);
             //spectrum[t*(RESE-1) +e-1] += noise(b, e*STEPE);
         }
     }
@@ -240,7 +240,7 @@ void addNoise(user_data_t *spectrum, user_data_t noise){
 }
 
 
-void createSpectrum(user_data_t *spectrum, user_data_t mass, user_data_t distance, user_data_t events, bool useEnergyRes, bool useTriggerEff, user_data_t noise){
+void createSpectrum(user_data_t *spectrum, user_data_t mass, user_data_t distance, user_data_t events, bool useEnergyRes, bool useTriggerEff, user_data_t noise, double noise_events){
     /*get trigger efficiencies as function of energy*/
     user_data_t triggerEffs[601];
     fillTriggerEff(triggerEffs, useTriggerEff);
@@ -260,6 +260,6 @@ void createSpectrum(user_data_t *spectrum, user_data_t mass, user_data_t distanc
     normalize(spectrum);
     /*sprinkle with some noise*/
     //addNoise(spectrum, noise);
-    addExpNoise(spectrum, noise, events);
+    addExpNoise(spectrum, noise, events, noise_events);
     normalize(spectrum);
 }
