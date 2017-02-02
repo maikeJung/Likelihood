@@ -207,6 +207,30 @@ void fillTriggerEff(user_data_t *triggerEffs, bool useTriggerEff){
     }
 }
 
+double noise(double b, double E){
+    /*choose noise to be an exponential function at the trigger-threshold (that is at about 5MeV)*/
+    double value;
+    if (E < 5){
+        value = 0.0;
+    }
+    else{ 
+        value = b*exp((5.0-E)*b);
+    }
+    return value;
+}
+
+void addExpNoise(user_data_t *spectrum, user_data_t b, double events){ 
+    /*add noise to the spectrum*/
+    int t, e;
+    for(t = 0; t < REST; t++){
+        for(e = 1; e < RESE; e++){
+            spectrum[t*(RESE-1) +e-1] = noise(b, e*STEPE)*0.01 + spectrum[t*(RESE-1) +e-1]*(events-0.01);
+            //spectrum[t*(RESE-1) +e-1] += noise(b, e*STEPE);
+        }
+    }
+    
+}
+
 void addNoise(user_data_t *spectrum, user_data_t noise){
     int i;
     // add constant noise floor to the spectrum
@@ -233,7 +257,9 @@ void createSpectrum(user_data_t *spectrum, user_data_t mass, user_data_t distanc
 
     /*create the spectrum from which the random events are drawn*/
     generateDist(mass, distance, events, spectrum, triggerEffs, useEnergyRes);
-
+    normalize(spectrum);
     /*sprinkle with some noise*/
-    addNoise(spectrum, noise);
+    //addNoise(spectrum, noise);
+    addExpNoise(spectrum, noise, events);
+    normalize(spectrum);
 }
