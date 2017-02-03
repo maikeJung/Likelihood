@@ -44,6 +44,7 @@ void getSeed(double distance, double mass, double events, double noise){
     FILE *f = fopen("seeds.txt", "a");
     fprintf(f, "%f %f %.0f %f %d\n", distance, mass, events, noise, seed);
     srand( seed );
+    fclose(f);
 }
 
 
