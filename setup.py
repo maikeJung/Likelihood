@@ -8,7 +8,7 @@ from distutils.core import setup, Extension
 
 
 example_module = Extension('_spectrum',
-                           sources=['spectrum_wrap.c', 'spectrum.c','likelihood.c'],
+                           sources=['spectrum_wrap.c', 'spectrum.c','likelihood.c','generateEvents2.c'],
                            )
 
 setup (name = 'spectrum',

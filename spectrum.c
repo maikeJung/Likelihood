@@ -187,12 +187,12 @@ void generateDist(double mass, double dist, double events, double *distribution,
 }
 
 
-void fillTriggerEff(user_data_t *triggerEffs, bool useTriggerEff){
+void fillTriggerEff(double *triggerEffs, bool useTriggerEff){
     /*Read in trigger efficiency.
      Note that the trigger efficiency file for the chosen resolution needs
      to be located in the proper directory.*/
     int i;
-    user_data_t triggerEns[601];
+    double triggerEns[601];
     if(useTriggerEff){
         FILE *myFile;
         myFile = fopen("trigger_efficiency_100keV_steps.txt", "r");
@@ -219,7 +219,7 @@ double noise(double b, double E){
     return value;
 }
 
-void addExpNoise(user_data_t *spectrum, user_data_t b, double events, double noise_events){ 
+void addExpNoise(double *spectrum, double b, double events, double noise_events){ 
     /*add noise to the spectrum*/
     int t, e;
     for(t = 0; t < REST; t++){
@@ -231,7 +231,7 @@ void addExpNoise(user_data_t *spectrum, user_data_t b, double events, double noi
     
 }
 
-void addNoise(user_data_t *spectrum, user_data_t noise){
+void addNoise(double *spectrum, double noise){
     int i;
     // add constant noise floor to the spectrum
     for (i=0; i<(RESE-1)*REST; i++){
@@ -240,9 +240,9 @@ void addNoise(user_data_t *spectrum, user_data_t noise){
 }
 
 
-void createSpectrum(user_data_t *spectrum, user_data_t mass, user_data_t distance, user_data_t events, bool useEnergyRes, bool useTriggerEff, user_data_t noise, double noise_events){
+void createSpectrum(double *spectrum, double mass, double distance, double events, bool useEnergyRes, bool useTriggerEff, double noise, double noise_events){
     /*get trigger efficiencies as function of energy*/
-    user_data_t triggerEffs[601];
+    double triggerEffs[601];
     fillTriggerEff(triggerEffs, useTriggerEff);
     //create a file from the triggerEff for debugging
     /*char filename[sizeof "triggerEff_CUDA.txt"];
