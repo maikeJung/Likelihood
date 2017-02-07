@@ -19,11 +19,13 @@ BINNING: see spectrum.h
 #include "spectrum.h"
 
 /// load event
-void getEvent(int *eventEnergy, int *eventTime, double mass, double distance, double events, int filenumber){
-
+void getEvent(int *eventEnergy, int *eventTime, double mass, double distance, double events, int filenumber, double noise){
     /*load events & store energy and time in arrays*/
-    char filename[sizeof "DATA/10.00Mpc_700Events_1.57eV_event_1.45eV_10.5Mpc_1000Events_real_1111.txt"];
-    sprintf(filename, "DATA/%.2fMpc_%.0fEvents_%.2feV/events_%.2feV_%.2fMpc_%.0fEvents_real_%d.txt",distance, events, mass, mass, distance, events, filenumber);
+    char filename[sizeof "DATA/10.00Mpc_700Events_1.57eV_event_1.45eV_10.5Mpc_1000Events_real_1999111.txt"];
+    sprintf(filename, "DATA/%.2fMpc_%.0fEvents_%.5feV/events_%.2feV_%.2fMpc_%.0fEvents_real_%d.txt",distance, events, mass, mass, distance, events, filenumber);
+
+    //char filename[sizeof "DATA/NOISETEST/10.00Mpc_700Events_1.57eV_event_b000_1.45eV_10.5Mpc_1000Events_real_1111.txt"];
+    //sprintf(filename, "DATA/NOISETEST/%.2fMpc_%.0fEvents_%.2feV_b%.3f/events_%.2feV_%.2fMpc_%.0fEvents_real_%d.txt",distance, events, mass, noise, mass, distance, events, filenumber);
 
     FILE *f = fopen(filename, "r");
     int i;
@@ -45,7 +47,8 @@ double getLLH(double mass, double distance, double events, bool triggEff, bool e
     for (i = 0; i < events; i++){
         if (spectrum[eventTime[i]*(RESE-1)+eventEnergy[i]] < pow(10,-200)){
             llh += -10000000;   
-            printf("value of spectrum very small - check");
+            printf("event number %d e %d t %d\n",i, eventEnergy[i], eventTime[i]);
+            printf("value of spectrum very small - check \n");
         }
         else llh += log(spectrum[eventTime[i]*(RESE-1)+eventEnergy[i]]);
     }
@@ -60,7 +63,7 @@ void calcLLH(double mass, double distance, double events, bool triggEff, bool en
     /*load events & store energy and time in arrays*/
     int eventEnergy[(int) events];
     int eventTime[(int) events];
-    getEvent(eventEnergy, eventTime, mass, distance, events, filenumber);
+    getEvent(eventEnergy, eventTime, mass, distance, events, filenumber, noise);
 
     // calculate the likelihood
     int i;
