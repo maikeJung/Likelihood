@@ -21,9 +21,18 @@ BINNING: defined in header-file (spectrum.h)
 #include <sys/stat.h>
 #include <errno.h>
 
-void createEventsArray(double events, double *spectrum, double max, int *timeArray, int *energyArray){
+void createEventsArray(double events, double *spectrum, double max, int *timeArray, int *energyArray, int filenumber){
     
     /*creates events and writes them in a time and energy array*/
+    /* - to store Data
+    char filename[sizeof "DATA/DATA_MOGON_TEST/Events500kpc_100meV/event1111.txt"];
+    sprintf(filename, "DATA/DATA_MOGON_TEST/Events500kpc_100meV/event%d.txt", filenumber);
+    FILE *f = fopen(filename, "w");
+    if (f == NULL){
+        printf("Error opening file!\n");
+        exit(1);
+    }*/
+
     int eventsGenerated = 0;
     int randE, randT;
     double randCheck;
@@ -34,9 +43,11 @@ void createEventsArray(double events, double *spectrum, double max, int *timeArr
         if (spectrum[randT*(RESE-1)+randE] >= randCheck){
             timeArray[eventsGenerated] = randT;
             energyArray[eventsGenerated] = randE;
+            //fprintf(f, "%d %d\n", randE, randT);
             eventsGenerated ++;
         }
     }
+    //fclose(f);
 }
 
 void getSeed(double distance, double mass, double events, double noise){

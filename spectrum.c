@@ -259,7 +259,7 @@ void createSpectrum(double *spectrum, double mass, double distance, double event
     generateDist(mass, distance, events, spectrum, triggerEffs, useEnergyRes);
     normalize(spectrum);
     /*sprinkle with some noise*/
-    addNoise(spectrum, noise);
+    //addNoise(spectrum, noise);
     //addExpNoise(spectrum, noise, events, noise_events);
-    normalize(spectrum);
+    //normalize(spectrum);
 }

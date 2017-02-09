@@ -82,19 +82,19 @@ if __name__ == "__main__":
     masses = []
     for i in range(nfits):
         # create one event
-        spectrum.createEventsArray(events, spectrumGen, maxSpectrum, eventTime, eventEnergy)
+        spectrum.createEventsArray(events, spectrumGen, maxSpectrum, eventTime, eventEnergy,i)
 
         # find the mass for which the likelihood is minimal and store it
         x_min = minimize_scalar(llh, bounds=(0.0,5.0), method='bounded', options={'disp':1,'xatol':0.005})
         print i, x_min.nfev, x_min.x
         masses.append(x_min.x)
-        with open("DATA/masses_"+str(distance)+"Mpc_"+str(events)+"Events_"+str(mass)+"eV_"+str(noise_events)+"noiseEvents_"+str(noise)+"Noise.txt", "a") as myfile:
+        with open("DATA/masses_"+str(distance)+"Mpc_"+str(events)+"Events_"+str(mass)+"eV_"+str(noise_events)+"noiseEvents_"+str(noise)+"Noise_test.txt", "a") as myfile:
             myfile.write(str(x_min.x) + '\n')
 
     # calculate 1 sigma uncertainty and store
     lower, value, upper = calcError(masses)
 
-    with open("DATA/detection_error.txt", "a") as myfile:
+    with open("DATA/detection_error_test.txt", "a") as myfile:
         myfile.write(str(distance) +" "+ str(events) +" "+ str(mass) +" " +str(noise)+ " " + str(lower) +" "+ str(value)+" " + str(upper) + '\n')
 
     print 'DONE'
