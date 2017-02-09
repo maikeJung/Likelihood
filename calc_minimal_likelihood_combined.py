@@ -62,6 +62,12 @@ if __name__ == "__main__":
     useTriggerEff = args.triggEff; useEnergyRes = args.energyRes
     noise = args.noiseb
 
+    #draw events and noise events from Poisson distribution
+    #neutrinoEvents = np.random.poisson(events)
+    #noiseEvents = np.random.poisson(noise_events)
+    #events = neutrinoEvents + noiseEvents
+
+
     # create spectrum from which the events are drawn
     # TODO: draw number of events from Poisson distribution - probably needs to be created for every event
     spectrumGen = spectrum.doubleArray( (RESE - 1) * REST )
