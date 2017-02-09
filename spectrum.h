@@ -38,7 +38,7 @@ void createSpectrum(double *spectrum, double mass, double distance, double event
 void getEvent(int *eventEnergy, int *eventTime, double mass, double distance, double events, int filenumber, double noise);
 double getLLH(double mass, double distance, double events, bool triggEff, bool energyRes, double noise, int *eventTime, int *eventEnergy, double noise_events);
 
-void createEventsArray(double events, double *spectrum, double max, int *timeArray, int *energyArray);
+void createEventsArray(double events, double *spectrum, double max, int *timeArray, int *energyArray, int filenumber);
 void getSeed(double distance, double mass, double events, double noise);
 double findSpectrumMax(double *spectrum);
 
