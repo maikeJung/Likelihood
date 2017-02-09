@@ -54,7 +54,7 @@ if __name__ == "__main__":
     
     #TODO also import? also parse noise?
     RESE = 200
-    REST = 300
+    REST = 900
     noise = pow(10,-3)*(10.0/REST)
     noise_events = 0.01
 

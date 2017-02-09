@@ -257,9 +257,8 @@ void createSpectrum(double *spectrum, double mass, double distance, double event
 
     /*create the spectrum from which the random events are drawn*/
     generateDist(mass, distance, events, spectrum, triggerEffs, useEnergyRes);
-    normalize(spectrum);
-    /*sprinkle with some noise*/
-    //addNoise(spectrum, noise);
+    /*add noise - constant or expomential*/
+    addNoise(spectrum, noise);
     //addExpNoise(spectrum, noise, events, noise_events);
     //normalize(spectrum);
 }
